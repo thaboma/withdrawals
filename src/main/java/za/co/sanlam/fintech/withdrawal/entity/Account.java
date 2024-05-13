@@ -1,5 +1,6 @@
 package za.co.sanlam.fintech.withdrawal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import za.co.sanlam.fintech.withdrawal.enums.Status;
@@ -36,6 +37,7 @@ public class Account implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Status status = Status.ACTIVE;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = { CascadeType.ALL }, orphanRemoval = true)
 	@EqualsAndHashCode.Exclude
 	private Set<Transaction> transactions = new HashSet<>();

@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import za.co.sanlam.fintech.withdrawal.dto.WithdrawalRequestDto;
 import za.co.sanlam.fintech.withdrawal.dto.WithdrawalResponseDto;
 import za.co.sanlam.fintech.withdrawal.entity.Account;
+import za.co.sanlam.fintech.withdrawal.entity.Transaction;
 import za.co.sanlam.fintech.withdrawal.service.AccountService;
+
+import java.util.Date;
+import java.util.Set;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/account")
@@ -25,9 +30,13 @@ public class AccountsController {
 		return new ResponseEntity<>(withdrawalResponseDto, HttpStatus.OK);
 	}
 
-	@PostMapping("/save")
-	public ResponseEntity<Void> save(@RequestBody Account account) {
+	@PostMapping("/add")
+	public ResponseEntity<Void> add(@RequestBody Account account) {
+		var transaction = Transaction.builder().id(UUID.randomUUID()).account(account).amount(account.getBalance()).type(Transaction.Type.ADD).accountId(account.getId()).transactionDate(new Date()).build();
+		account.setTransactions(Set.of(transaction));
+
 		service.saveOrUpdateAccount(account);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+
 }

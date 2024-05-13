@@ -1,6 +1,7 @@
 package za.co.sanlam.fintech.withdrawal.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +25,6 @@ public class Transaction implements Serializable {
 			name = "account_id", referencedColumnName = "id", updatable = false, insertable = false
 
 	)
-    @JsonIgnore
 	Account account;
 
 	@Id
@@ -44,7 +44,7 @@ public class Transaction implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Type type;
 
-	public enum Type {WITHDRAWAL, DEPOSIT}
+	public enum Type {ADD, DEPOSIT,WITHDRAWAL}
 }
 
 
